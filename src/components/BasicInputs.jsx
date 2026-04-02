@@ -1,7 +1,9 @@
 import { useState } from "react";
+import LocationPopup from "./LocationPopup";
 
 function BasicInputs() {
   const [structureType, setStructureType] = useState("Highway");
+  const [showPopup, setShowPopup] = useState(false);
 
   const isDisabled = structureType === "Other";
 
@@ -9,7 +11,8 @@ function BasicInputs() {
     <div style={{ marginTop: "15px" }}>
       {/* Type of Structure */}
       <div>
-        <label>Type of Structure</label><br />
+        <label>Type of Structure</label>
+        <br />
         <select
           value={structureType}
           onChange={(e) => setStructureType(e.target.value)}
@@ -23,14 +26,25 @@ function BasicInputs() {
 
       {/* Project Location */}
       <div>
-        <button disabled={isDisabled}>Project Location</button>
+        <button
+          disabled={isDisabled}
+          onClick={() => setShowPopup(true)}
+        >
+          Project Location
+        </button>
       </div>
 
       <br />
 
+      {/* Popup  */}
+      {showPopup && (
+        <LocationPopup onClose={() => setShowPopup(false)} />
+      )}
+
       {/* Span */}
       <div>
-        <label>Span (m)</label><br />
+        <label>Span (m)</label>
+        <br />
         <input type="number" disabled={isDisabled} />
       </div>
 
@@ -38,7 +52,8 @@ function BasicInputs() {
 
       {/* Carriageway */}
       <div>
-        <label>Carriageway Width (m)</label><br />
+        <label>Carriageway Width (m)</label>
+        <br />
         <input type="number" disabled={isDisabled} />
       </div>
 
@@ -46,7 +61,8 @@ function BasicInputs() {
 
       {/* Footpath */}
       <div>
-        <label>Footpath</label><br />
+        <label>Footpath</label>
+        <br />
         <select disabled={isDisabled}>
           <option>None</option>
           <option>Single</option>
@@ -58,7 +74,8 @@ function BasicInputs() {
 
       {/* Skew */}
       <div>
-        <label>Skew Angle (°)</label><br />
+        <label>Skew Angle (°)</label>
+        <br />
         <input type="number" disabled={isDisabled} />
       </div>
     </div>
