@@ -1,5 +1,14 @@
+import LeftPanel from "./components/LeftPanel";
+import RightPanel from "./components/RightPanel";
+import "./styles/layout.css";
+
 function App() {
-  return <h1>OSDAG Bridge UI</h1>;
+  return (
+    <div className="app-container">
+      <LeftPanel />
+      <RightPanel />
+    </div>
+  );
 }
 
 export default App;

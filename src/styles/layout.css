@@ -1,0 +1,46 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* LEFT PANEL */
+.left-panel {
+  width: 20%;
+  background: #1e293b; /* dark navy */
+  color: #ffffff;
+  padding: 20px;
+  border-right: 1px solid #334155;
+}
+
+/* RIGHT PANEL */
+.right-panel {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f1f5f9; /* light gray */
+}
+
+/* Title */
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #e2e8f0;
+}
+
+/* Tabs */
+.tabs button {
+  background: #334155;
+  color: #e2e8f0;
+  border: none;
+  padding: 6px 10px;
+  margin-right: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tabs button:hover {
+  background: #475569;
+}
