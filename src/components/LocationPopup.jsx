@@ -5,6 +5,7 @@ function LocationPopup({ onClose, onSelect }) {
   const [mode, setMode] = useState("dropdown");
   const [selectedCity, setSelectedCity] = useState("");
   const [manualCity, setManualCity] = useState("");
+  
 
   return (
     <div style={overlayStyle}>

@@ -4,8 +4,34 @@ import LocationPopup from "./LocationPopup";
 function BasicInputs() {
   const [structureType, setStructureType] = useState("Highway");
   const [showPopup, setShowPopup] = useState(false);
-  const isDisabled = structureType === "Other";
   const [location, setLocation] = useState("");
+
+  const [span, setSpan] = useState("");
+  const [width, setWidth] = useState("");
+  const [skew, setSkew] = useState("");
+
+  const [errors, setErrors] = useState({});
+
+  const isDisabled = structureType === "Other";
+
+  // ✅ Updated validation (no lag)
+  const validate = (newSpan, newWidth, newSkew) => {
+    let newErrors = {};
+
+    if (!newSpan || newSpan <= 0) {
+      newErrors.span = "Span must be greater than 0";
+    }
+
+    if (!newWidth || newWidth <= 0) {
+      newErrors.width = "Width must be greater than 0";
+    }
+
+    if (newSkew < 0 || newSkew > 90) {
+      newErrors.skew = "Skew must be between 0 and 90";
+    }
+
+    setErrors(newErrors);
+  };
 
   return (
     <div style={{ marginTop: "15px" }}>
@@ -26,14 +52,17 @@ function BasicInputs() {
 
       {/* Project Location */}
       <div>
-        <button disabled={isDisabled} onClick={() => setShowPopup(true)}>
+        <button
+          disabled={isDisabled}
+          onClick={() => setShowPopup(true)}
+        >
           {location ? location : "Project Location"}
         </button>
       </div>
 
       <br />
 
-      {/* Popup  */}
+      {/* Popup */}
       {showPopup && (
         <LocationPopup
           onClose={() => setShowPopup(false)}
@@ -48,16 +77,40 @@ function BasicInputs() {
       <div>
         <label>Span (m)</label>
         <br />
-        <input type="number" disabled={isDisabled} />
+        <input
+          type="number"
+          value={span}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSpan(value);
+            validate(value, width, skew);
+          }}
+          disabled={isDisabled}
+        />
+        {errors.span && (
+          <p style={{ color: "red" }}>{errors.span}</p>
+        )}
       </div>
 
       <br />
 
-      {/* Carriageway */}
+      {/* Carriageway Width */}
       <div>
         <label>Carriageway Width (m)</label>
         <br />
-        <input type="number" disabled={isDisabled} />
+        <input
+          type="number"
+          value={width}
+          onChange={(e) => {
+            const value = e.target.value;
+            setWidth(value);
+            validate(span, value, skew);
+          }}
+          disabled={isDisabled}
+        />
+        {errors.width && (
+          <p style={{ color: "red" }}>{errors.width}</p>
+        )}
       </div>
 
       <br />
@@ -75,11 +128,23 @@ function BasicInputs() {
 
       <br />
 
-      {/* Skew */}
+      {/* Skew Angle */}
       <div>
         <label>Skew Angle (°)</label>
         <br />
-        <input type="number" disabled={isDisabled} />
+        <input
+          type="number"
+          value={skew}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSkew(value);
+            validate(span, width, value);
+          }}
+          disabled={isDisabled}
+        />
+        {errors.skew && (
+          <p style={{ color: "red" }}>{errors.skew}</p>
+        )}
       </div>
     </div>
   );
