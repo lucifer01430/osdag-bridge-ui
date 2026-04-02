@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LocationPopup from "./LocationPopup";
+import GeometryPopup from "./GeometryPopup";
 
 function BasicInputs() {
   const [structureType, setStructureType] = useState("Highway");
@@ -14,7 +15,6 @@ function BasicInputs() {
 
   const isDisabled = structureType === "Other";
 
-  // ✅ Updated validation (no lag)
   const validate = (newSpan, newWidth, newSkew) => {
     let newErrors = {};
 
@@ -33,12 +33,12 @@ function BasicInputs() {
     setErrors(newErrors);
   };
 
+  const [showGeometry, setShowGeometry] = useState(false);
+
   return (
-    <div style={{ marginTop: "15px" }}>
-      {/* Type of Structure */}
-      <div>
-        <label>Type of Structure</label>
-        <br />
+    <div className="input-section">
+      <div className="form-group">
+        <label className="form-label">Type of Structure</label>
         <select
           value={structureType}
           onChange={(e) => setStructureType(e.target.value)}
@@ -48,21 +48,17 @@ function BasicInputs() {
         </select>
       </div>
 
-      <br />
-
-      {/* Project Location */}
-      <div>
+      <div className="form-group">
         <button
+          className="btn btn-primary"
           disabled={isDisabled}
           onClick={() => setShowPopup(true)}
         >
-          {location ? location : "Project Location"}
+          <i className="fa fa-map-marker" aria-hidden="true" /> Project Location
+          {location ? `: ${location}` : ""}
         </button>
       </div>
 
-      <br />
-
-      {/* Popup */}
       {showPopup && (
         <LocationPopup
           onClose={() => setShowPopup(false)}
@@ -73,10 +69,12 @@ function BasicInputs() {
         />
       )}
 
-      {/* Span */}
-      <div>
-        <label>Span (m)</label>
-        <br />
+      {showGeometry && (
+        <GeometryPopup width={width} onClose={() => setShowGeometry(false)} />
+      )}
+
+      <div className="form-group">
+        <label className="form-label">Span (m)</label>
         <input
           type="number"
           value={span}
@@ -87,17 +85,11 @@ function BasicInputs() {
           }}
           disabled={isDisabled}
         />
-        {errors.span && (
-          <p style={{ color: "red" }}>{errors.span}</p>
-        )}
+        {errors.span && <p className="error-message">{errors.span}</p>}
       </div>
 
-      <br />
-
-      {/* Carriageway Width */}
-      <div>
-        <label>Carriageway Width (m)</label>
-        <br />
+      <div className="form-group">
+        <label className="form-label">Carriageway Width (m)</label>
         <input
           type="number"
           value={width}
@@ -108,17 +100,11 @@ function BasicInputs() {
           }}
           disabled={isDisabled}
         />
-        {errors.width && (
-          <p style={{ color: "red" }}>{errors.width}</p>
-        )}
+        {errors.width && <p className="error-message">{errors.width}</p>}
       </div>
 
-      <br />
-
-      {/* Footpath */}
-      <div>
-        <label>Footpath</label>
-        <br />
+      <div className="form-group">
+        <label className="form-label">Footpath</label>
         <select disabled={isDisabled}>
           <option>None</option>
           <option>Single</option>
@@ -126,12 +112,18 @@ function BasicInputs() {
         </select>
       </div>
 
-      <br />
+      <div className="form-group">
+        <button
+          className="btn btn-primary"
+          disabled={isDisabled}
+          onClick={() => setShowGeometry(true)}
+        >
+          <i className="fa fa-cogs" aria-hidden="true" /> Modify Additional Geometry
+        </button>
+      </div>
 
-      {/* Skew Angle */}
-      <div>
-        <label>Skew Angle (°)</label>
-        <br />
+      <div className="form-group">
+        <label className="form-label">Skew Angle (deg)</label>
         <input
           type="number"
           value={skew}
@@ -142,9 +134,7 @@ function BasicInputs() {
           }}
           disabled={isDisabled}
         />
-        {errors.skew && (
-          <p style={{ color: "red" }}>{errors.skew}</p>
-        )}
+        {errors.skew && <p className="error-message">{errors.skew}</p>}
       </div>
     </div>
   );

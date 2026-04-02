@@ -9,12 +9,18 @@ function LeftPanel() {
     <div className="left-panel">
       <div className="title">Group Design</div>
 
-      <div>
-        <button onClick={() => setActiveTab("basic")}>
+      <div className="tabs">
+        <button
+          className={`tab-btn ${activeTab === "basic" ? "active" : ""}`}
+          onClick={() => setActiveTab("basic")}
+        >
           Basic Inputs
         </button>
 
-        <button onClick={() => setActiveTab("additional")}>
+        <button
+          className={`tab-btn ${activeTab === "additional" ? "active" : ""}`}
+          onClick={() => setActiveTab("additional")}
+        >
           Additional Inputs
         </button>
       </div>

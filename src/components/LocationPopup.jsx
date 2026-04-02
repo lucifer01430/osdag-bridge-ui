@@ -5,80 +5,82 @@ function LocationPopup({ onClose, onSelect }) {
   const [mode, setMode] = useState("dropdown");
   const [selectedCity, setSelectedCity] = useState("");
   const [manualCity, setManualCity] = useState("");
-  
 
   return (
-    <div style={overlayStyle}>
-      <div style={popupStyle}>
-        <h3>Select Project Location</h3>
+    <div className="modal-overlay">
+      <div className="modal-box">
+        <h3 className="modal-title">Select Project Location</h3>
 
-        {/* Mode Toggle */}
-        {mode === "dropdown" && (
+        <div className="modal-toggle">
           <button
-            disabled={!selectedCity}
-            onClick={() => onSelect(selectedCity)}
+            className={`mode-btn ${mode === "dropdown" ? "active" : ""}`}
+            onClick={() => setMode("dropdown")}
           >
-            Select
+            <i className="fa fa-list" aria-hidden="true" /> Choose from list
           </button>
-        )}
-
-        {mode === "manual" && (
-          <button disabled={!manualCity} onClick={() => onSelect(manualCity)}>
-            Select
+          <button
+            className={`mode-btn ${mode === "manual" ? "active" : ""}`}
+            onClick={() => setMode("manual")}
+          >
+            <i className="fa fa-keyboard-o" aria-hidden="true" /> Enter manually
           </button>
-        )}
+        </div>
 
-        <br />
-
-        {/* Dropdown Mode */}
         {mode === "dropdown" && (
-          <select
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-          >
-            <option value="">Select City</option>
-            {cities.map((city, index) => (
-              <option key={index}>{city}</option>
-            ))}
-          </select>
+          <div className="form-group">
+            <label className="form-label">City</label>
+            <select
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
+            >
+              <option value="">Select City</option>
+              {cities.map((city, index) => (
+                <option key={index}>{city}</option>
+              ))}
+            </select>
+          </div>
         )}
 
-        {/* Manual Mode */}
         {mode === "manual" && (
-          <input
-            type="text"
-            placeholder="Enter city"
-            value={manualCity}
-            onChange={(e) => setManualCity(e.target.value)}
-          />
+          <div className="form-group">
+            <label className="form-label">City</label>
+            <input
+              type="text"
+              placeholder="Enter city"
+              value={manualCity}
+              onChange={(e) => setManualCity(e.target.value)}
+            />
+          </div>
         )}
 
-        <br />
-        <br />
+        <div className="modal-actions">
+          {mode === "dropdown" && (
+            <button
+              className="btn btn-primary"
+              disabled={!selectedCity}
+              onClick={() => onSelect(selectedCity)}
+            >
+              Select
+            </button>
+          )}
 
-        <button onClick={onClose}>Close</button>
+          {mode === "manual" && (
+            <button
+              className="btn btn-primary"
+              disabled={!manualCity}
+              onClick={() => onSelect(manualCity)}
+            >
+              Select
+            </button>
+          )}
+
+          <button className="btn btn-secondary" onClick={onClose}>
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-
-const overlayStyle = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  background: "rgba(0,0,0,0.5)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const popupStyle = {
-  background: "#fff",
-  padding: "20px",
-  borderRadius: "8px",
-  width: "300px",
-};
 
 export default LocationPopup;
