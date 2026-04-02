@@ -1,3 +1,5 @@
+import BasicInputs from "./BasicInputs";
+
 function LeftPanel() {
   return (
     <div className="left-panel">
@@ -8,7 +10,7 @@ function LeftPanel() {
         <button>Additional Inputs</button>
       </div>
 
-      <p>Inputs will come here...</p>
+      <BasicInputs />
     </div>
   );
 }
