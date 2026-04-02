@@ -1,7 +1,7 @@
 import { useState } from "react";
 import cities from "../data/cities";
 
-function LocationPopup({ onClose }) {
+function LocationPopup({ onClose, onSelect }) {
   const [mode, setMode] = useState("dropdown");
   const [selectedCity, setSelectedCity] = useState("");
   const [manualCity, setManualCity] = useState("");
@@ -12,14 +12,20 @@ function LocationPopup({ onClose }) {
         <h3>Select Project Location</h3>
 
         {/* Mode Toggle */}
-        <div>
-          <button onClick={() => setMode("dropdown")}>
-            Dropdown
+        {mode === "dropdown" && (
+          <button
+            disabled={!selectedCity}
+            onClick={() => onSelect(selectedCity)}
+          >
+            Select
           </button>
-          <button onClick={() => setMode("manual")}>
-            Manual
+        )}
+
+        {mode === "manual" && (
+          <button disabled={!manualCity} onClick={() => onSelect(manualCity)}>
+            Select
           </button>
-        </div>
+        )}
 
         <br />
 
@@ -46,7 +52,8 @@ function LocationPopup({ onClose }) {
           />
         )}
 
-        <br /><br />
+        <br />
+        <br />
 
         <button onClick={onClose}>Close</button>
       </div>
@@ -63,14 +70,14 @@ const overlayStyle = {
   background: "rgba(0,0,0,0.5)",
   display: "flex",
   justifyContent: "center",
-  alignItems: "center"
+  alignItems: "center",
 };
 
 const popupStyle = {
   background: "#fff",
   padding: "20px",
   borderRadius: "8px",
-  width: "300px"
+  width: "300px",
 };
 
 export default LocationPopup;

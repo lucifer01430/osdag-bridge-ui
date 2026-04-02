@@ -4,8 +4,8 @@ import LocationPopup from "./LocationPopup";
 function BasicInputs() {
   const [structureType, setStructureType] = useState("Highway");
   const [showPopup, setShowPopup] = useState(false);
-
   const isDisabled = structureType === "Other";
+  const [location, setLocation] = useState("");
 
   return (
     <div style={{ marginTop: "15px" }}>
@@ -26,11 +26,8 @@ function BasicInputs() {
 
       {/* Project Location */}
       <div>
-        <button
-          disabled={isDisabled}
-          onClick={() => setShowPopup(true)}
-        >
-          Project Location
+        <button disabled={isDisabled} onClick={() => setShowPopup(true)}>
+          {location ? location : "Project Location"}
         </button>
       </div>
 
@@ -38,7 +35,13 @@ function BasicInputs() {
 
       {/* Popup  */}
       {showPopup && (
-        <LocationPopup onClose={() => setShowPopup(false)} />
+        <LocationPopup
+          onClose={() => setShowPopup(false)}
+          onSelect={(city) => {
+            setLocation(city);
+            setShowPopup(false);
+          }}
+        />
       )}
 
       {/* Span */}
